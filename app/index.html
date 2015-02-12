@@ -11,7 +11,8 @@
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
-    <link rel="stylesheet" href="styles/css/main.css">
+    <link rel="stylesheet" href="styles/css/reveal.css">
+    <link rel="stylesheet" href="styles/css/black.css">
     <!-- endbuild -->
   </head>
   <body ng-app="angularRevealApp">
@@ -20,11 +21,23 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
-    <div class="container">
 
-      <div ng-include="'views/main.html'" ng-controller="MainCtrl"></div>
+    <div reveal class="slide center">
+      <div reveal-section>
+        <h1>Section 1</h1>
+        <p>Text de la section 1</p>
+      </div>
+      <div reveal-section>
+        <h1>Section 2</h1>
+        <p>Text de la section 2</p>
+      </div>
+      <div reveal-section>
+        <h1>Section 3</h1>
+        <p>Text de la section 3</p>
+      </div>
 
     </div>
+
 
 
     <!-- build:js(.) scripts/oldieshim.js -->
@@ -37,6 +50,7 @@
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
     <script src="../bower_components/jquery/dist/jquery.js"></script>
+    <script src="../bower_components/underscore/underscore-min.js"></script>
     <script src="../bower_components/angular/angular.js"></script>
     <script src="../bower_components/json3/lib/json3.js"></script>
     <script src="../bower_components/angular-animate/angular-animate.js"></script>

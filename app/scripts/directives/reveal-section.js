@@ -16,6 +16,7 @@ angular.module('angularRevealApp')
       require: '^reveal',
       link: function postLink(scope, element, attrs, ctrl) {
         console.log('rajouter la section');
+        ctrl.addSection(element);
       }
     };
   });
