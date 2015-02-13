@@ -10,6 +10,10 @@ module.exports = function(config) {
     // enable / disable watching file and executing tests whenever any file changes
     autoWatch: true,
 
+    preprocessors: {
+      'app/template/**/*.html': ['ng-html2js']
+    },
+
     // base path, that will be used to resolve files and exclude
     basePath: '../',
 
@@ -18,13 +22,16 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+      'bower_components/jquery/dist/jquery.js',
+      'bower_components/underscore/underscore-min.js',
       'bower_components/angular/angular.js',
       'bower_components/angular-mocks/angular-mocks.js',
       'bower_components/angular-animate/angular-animate.js',
       'bower_components/angular-touch/angular-touch.js',
       'app/scripts/**/*.js',
       'test/mock/**/*.js',
-      'test/spec/**/*.js'
+      'test/spec/**/*.js',
+      'app/template/**/*.html'
     ],
 
     // list of files / patterns to exclude
@@ -48,6 +55,7 @@ module.exports = function(config) {
     // Which plugins to enable
     plugins: [
       'karma-phantomjs-launcher',
+      'karma-ng-html2js-preprocessor',
       'karma-jasmine'
     ],
 
@@ -67,5 +75,23 @@ module.exports = function(config) {
     // },
     // URL root prevent conflicts with the site root
     // urlRoot: '_karma_'
+
+    ngHtml2JsPreprocessor: {
+      // strip this from the file path
+      stripPrefix: 'app/',
+      //stripSufix: '.ext',
+      // prepend this to the
+      //prependPrefix: 'served/',
+
+      // or define a custom transform function
+      //cacheIdFromPath: function(filepath) {
+      //  console.log('tt');
+      //  return cacheId;
+      //},
+
+      // setting this option will create only a single module that contains templates
+      // from all the files, so you can load them all with module('foo')
+      moduleName: 'templates'
+    }
   });
 };

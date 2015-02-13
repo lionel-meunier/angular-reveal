@@ -14,6 +14,47 @@ var config = {
     maxScale: 1.5
   };
 
+function Reveal(scope,element){
+  this.scope = scope;
+  this.element = element;
+  this.allSection = [];
+}
+
+Reveal.prototype.addSection = function(){
+
+};
+Reveal.prototype.removeSection = function(){
+
+};
+Reveal.prototype.getSection = function(){
+
+};
+Reveal.prototype.addProgress = function(){
+
+};
+Reveal.prototype.removeProgress = function(){
+
+};
+Reveal.prototype.getProgress = function(){
+
+};
+Reveal.prototype.addControls = function(controls){
+  if(_.isObject(controls)){
+    this.controls = controls;
+  } else {
+    throw new Error('Reveal controls is object');
+  }
+
+};
+Reveal.prototype.removeControls = function(){
+
+};
+Reveal.prototype.getControls = function(){
+
+};
+
+
+
 /**
  * @ngdoc directive
  * @name angularRevealApp.directive:reveal
@@ -22,6 +63,9 @@ var config = {
  */
 angular.module('angularRevealApp')
   .controller('RevealCtrl',['$scope','$window','$element',function($scope,$window,$element){
+
+    this.reveal = new Reveal($scope,$element);
+
     var dom = {
       wrapper : $element.get(0)
     };
@@ -100,17 +144,7 @@ angular.module('angularRevealApp')
     var allSection = [];
     var activeIndex = 0;
     var activeStack = -1;
-    this.addSection = function(element){
-      var section = {
-        element : element,
-        index : calElementIndex(element),
-        stack : calStackElement(element)
-      }
-      console.log(section);
 
-      allSection.push(section);
-      init();
-    };
 
     function init(){
       var presentSection = _.find(allSection,function(el){
@@ -131,6 +165,30 @@ angular.module('angularRevealApp')
       }
     }
 
+    this.addSection = function(element){
+      var section = {
+        element : element,
+        index : calElementIndex(element),
+        stack : calStackElement(element)
+      };
+      console.log(section);
+
+      allSection.push(section);
+      init();
+    };
+
+    this.getAllSection = function(element){
+      return allSection;
+    };
+
+    this.addControls = function(controls){
+
+    };
+
+    this.addProgress = function(progress){
+
+    };
+
   }])
   .directive('reveal', function () {
     return {
@@ -140,7 +198,6 @@ angular.module('angularRevealApp')
       replace: true,
       templateUrl:'template/reveal.html',
       link: function (scope, element, attrs) {
-        console.log(element.html());
       }
     };
   });
