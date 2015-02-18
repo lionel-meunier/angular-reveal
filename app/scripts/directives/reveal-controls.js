@@ -57,7 +57,7 @@ RevealControls.prototype.left = function(){
 RevealControls.prototype.right = function(){
   var index = this.getIndexCurrent();
   var size = this.getSectionSize();
-  if(index + 1 < size){
+  if(index + 1 <= size){
     this.reveal.goToIndex(index+1);
   }
 };

@@ -19,9 +19,19 @@ function Reveal(scope,element){
   this.element = element;
   this.allSection = [];
 }
-
-Reveal.prototype.addSection = function(){
-
+Reveal.prototype.init = function(){
+  if(_.isUndefined(this.current)) {
+    this.current = _.first(this.allSection);
+  }
+};
+Reveal.prototype.addSection = function(element){
+  var section = {
+    element : element,
+    index : this.getIndex(element),
+    stack : this.getStack(element)
+  };
+  this.allSection.push(section);
+  this.init();
 };
 Reveal.prototype.removeSection = function(){
 
@@ -52,8 +62,30 @@ Reveal.prototype.removeControls = function(){
 Reveal.prototype.getControls = function(){
 
 };
+Reveal.prototype.goToIndex = function(index){
+  console.log('not implemented goToIndex',index);
+};
+Reveal.prototype.goToStack = function(stack){
+  console.log('not implemented goToStack',stack);
+};
+Reveal.prototype.getIndex = function(element){
+  if(this.inStackElement(element)){
 
+  } else {
+    return _.indexOf(slides.find('.section').not(function(i,e){return inStackElement(angular.element(e))}),element.get(0));
+  }
+  return 0;
+};
+Reveal.prototype.inStackElement = function(element){
+  return element.parent('.section').length > 0;
+};
+Reveal.prototype.getStack = function(element){
+  if(this.inStackElement(element)){
 
+  } else {
+    return -1;
+  }
+};
 
 /**
  * @ngdoc directive

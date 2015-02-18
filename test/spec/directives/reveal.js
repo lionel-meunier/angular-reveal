@@ -19,7 +19,7 @@ describe('Directive: reveal', function () {
 
   var createDirective = function () {
     element = angular.element('<reveal></reveal>');
-    element = $compile(element)(scope)
+    element = $compile(element)(scope);
     scope.$digest();
   };
 
@@ -58,7 +58,7 @@ describe('Directive: reveal', function () {
     expect(_.isArray(ctrl.reveal.allSection)).toBe(true);
   });
 
-  fdescribe('controls', function () {
+  describe('controls', function () {
 
     it('should controller has function controls', function () {
       var ctrl = getCtrl();
