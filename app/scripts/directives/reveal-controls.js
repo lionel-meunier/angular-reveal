@@ -10,6 +10,7 @@
 function RevealControls(scope,element){
   this.scope = scope;
   this.element = element;
+  this.initScope();
 }
 
 RevealControls.prototype.setReveal = function(reveal){
@@ -70,7 +71,7 @@ RevealControls.prototype.top = function(){
 RevealControls.prototype.bottom = function(){
   var stack = this.getStackCurrent();
   var size = this.getStackSize();
-  if(stack + 1 < size){
+  if(stack + 1 <= size){
     this.reveal.goToStack(stack+1);
   }
 };
@@ -88,6 +89,7 @@ angular.module('angularRevealApp')
       replace: true,
       templateUrl: 'template/controls.html',
       require : ['revealControls','^reveal'],
+      scope:{},
       link: function postLink(scope, element, attrs, ctrl) {
         var revealControlsCtrl = ctrl[0];
         var revealCtrl = ctrl[1];

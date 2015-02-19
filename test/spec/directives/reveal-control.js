@@ -1,6 +1,6 @@
 'use strict';
 
-fdescribe('Directive: revealControl', function () {
+describe('Directive: revealControl', function () {
 
   // load the directive's module
   beforeEach(module('angularRevealApp'));
@@ -77,5 +77,56 @@ fdescribe('Directive: revealControl', function () {
     expect(revealCtrl.reveal.goToIndex).not.toHaveBeenCalled();
   });
 
+  it('should function top,bottom call function goToStack to revealCtrl', function () {
+    createDirective();
+    var revealCtrl = getCtrlReveal();
+    var ctrl = getCtrl();
+    var index = 2, size=2;
+    spyOn(ctrl.controls,'getStackCurrent').and.callFake(function(){
+      return index;
+    });
+    spyOn(ctrl.controls,'getStackSize').and.callFake(function(){
+      return size;
+    });
+    spyOn(revealCtrl.reveal,'goToStack');
+    ctrl.controls.top();
+    expect(ctrl.controls.getStackCurrent).toHaveBeenCalled();
+    expect(ctrl.controls.getStackSize).not.toHaveBeenCalled();
+    expect(revealCtrl.reveal.goToStack).toHaveBeenCalledWith(1);
+    index = 1;
+    revealCtrl.reveal.goToStack.calls.reset();
+    ctrl.controls.top();
+    expect(ctrl.controls.getStackCurrent).toHaveBeenCalled();
+    expect(ctrl.controls.getStackSize).not.toHaveBeenCalled();
+    expect(revealCtrl.reveal.goToStack).not.toHaveBeenCalled();
+    revealCtrl.reveal.goToStack.calls.reset();
+    ctrl.controls.bottom();
+    expect(ctrl.controls.getStackCurrent).toHaveBeenCalled();
+    expect(ctrl.controls.getStackSize).toHaveBeenCalled();
+    expect(revealCtrl.reveal.goToStack).toHaveBeenCalledWith(2);
+    index = 2;
+    revealCtrl.reveal.goToStack.calls.reset();
+    ctrl.controls.bottom();
+    expect(ctrl.controls.getStackCurrent).toHaveBeenCalled();
+    expect(ctrl.controls.getStackSize).toHaveBeenCalled();
+    expect(revealCtrl.reveal.goToStack).not.toHaveBeenCalled();
+  });
+
+  it('should click to left,right,top,bottom', function () {
+    createDirective();
+    var ctrl = getCtrl();
+    spyOn(ctrl.controls,'left');
+    element.find('.navigate-left').click();
+    expect(ctrl.controls.left).toHaveBeenCalled();
+    spyOn(ctrl.controls,'right');
+    element.find('.navigate-right').click();
+    expect(ctrl.controls.right).toHaveBeenCalled();
+    spyOn(ctrl.controls,'top');
+    element.find('.navigate-up').click();
+    expect(ctrl.controls.top).toHaveBeenCalled();
+    spyOn(ctrl.controls,'bottom');
+    element.find('.navigate-down').click();
+    expect(ctrl.controls.bottom).toHaveBeenCalled();
+  });
 
 });

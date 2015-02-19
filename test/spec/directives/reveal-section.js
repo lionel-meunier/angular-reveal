@@ -12,9 +12,5 @@ describe('Directive: revealSection', function () {
     scope = $rootScope.$new();
   }));
 
-  it('should make hidden element visible', inject(function ($compile) {
-    element = angular.element('<reveal-section></reveal-section>');
-    element = $compile(element)(scope);
-    expect(element.text()).toBe('this is the revealSection directive');
-  }));
+
 });

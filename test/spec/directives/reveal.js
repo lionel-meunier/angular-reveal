@@ -77,8 +77,6 @@ describe('Directive: reveal', function () {
       };
       expect(fn).toThrow();
     });
-
-
   });
 
 });
