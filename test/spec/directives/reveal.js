@@ -55,7 +55,7 @@ describe('Directive: reveal', function () {
 
   it('should controller has array all section ', function () {
     var ctrl = getCtrl();
-    expect(_.isArray(ctrl.reveal.allSection)).toBe(true);
+    expect(_.isObject(ctrl.reveal.iterable)).toBe(true);
   });
 
   describe('controls', function () {

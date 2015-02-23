@@ -1,11 +1,18 @@
 <aside class="controls">
   <div class="navigate-left"
     ng-click="left()"
+    ng-class="getClassForDirection('left')"
     ></div>
   <div class="navigate-right"
-       ng-click="right()"></div>
+       ng-click="right()"
+       ng-class="getClassForDirection('right')"
+    ></div>
   <div class="navigate-up"
-       ng-click="top()"></div>
+       ng-click="top()"
+       ng-class="getClassForDirection('top')"
+    ></div>
   <div class="navigate-down"
-       ng-click="bottom()"></div>
+       ng-click="bottom()"
+       ng-class="getClassForDirection('bottom')"
+    ></div>
 </aside>

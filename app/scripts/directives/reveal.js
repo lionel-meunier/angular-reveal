@@ -17,24 +17,20 @@ var config = {
 function Reveal(scope,element){
   this.scope = scope;
   this.element = element;
-  this.allSection = [];
+  this.iterable = new RevealSectionIte();
+  this.slides = element.find('.slides');
 }
-Reveal.prototype.init = function(){
-  if(_.isUndefined(this.current)) {
-    this.current = _.first(this.allSection);
-  }
-};
-Reveal.prototype.addSection = function(element){
-  var section = {
-    element : element,
-    index : this.getIndex(element),
-    stack : this.getStack(element)
-  };
-  this.allSection.push(section);
-  this.init();
-};
-Reveal.prototype.removeSection = function(){
 
+Reveal.prototype.init = function(){
+
+};
+
+Reveal.prototype.addSection = function(section){
+  this.iterable.addSection(section);
+};
+
+Reveal.prototype.removeSection = function(section){
+  this.iterable.removeSection(section);
 };
 Reveal.prototype.getSection = function(){
 
@@ -69,10 +65,12 @@ Reveal.prototype.goToStack = function(stack){
   console.log('not implemented goToStack',stack);
 };
 Reveal.prototype.getIndex = function(element){
+  var self = this;
   if(this.inStackElement(element)){
 
   } else {
-    return _.indexOf(slides.find('.section').not(function(i,e){return inStackElement(angular.element(e))}),element.get(0));
+    var index = _.indexOf(this.slides.find('.section').not(function(i,e){return self.inStackElement(angular.element(e))}),element.get(0));
+    return index;
   }
   return 0;
 };
@@ -85,6 +83,93 @@ Reveal.prototype.getStack = function(element){
   } else {
     return -1;
   }
+};
+
+
+function RevealSectionIte(){
+  this.sections = [];
+  this.index = 0;
+}
+
+RevealSectionIte.prototype.removeSection = function(section){
+  console.error('not implemanted');
+};
+
+RevealSectionIte.prototype.addSection = function(section){
+  this.sections.push(section);
+  //order by this index
+  this.sections = _.sortBy(this.sections,function(el){
+    return el.getIndex();
+  });
+  //update state
+  this.updateState();
+};
+
+RevealSectionIte.prototype.count = function(){
+  return this.sections.length;
+};
+
+RevealSectionIte.prototype.reset = function(){
+  this.index = 0;
+};
+
+RevealSectionIte.prototype.next = function(){
+  if(this.index < this.count() - 1){
+    this.index++;
+    this.updateState();
+    return this.sections[this.index];
+  } else {
+    return null;
+  }
+};
+
+RevealSectionIte.prototype.prev = function(){
+  if(this.index > 0){
+    this.index--;
+    this.updateState();
+    return this.sections[this.index];
+  } else {
+    return null;
+  }
+};
+
+RevealSectionIte.prototype.current = function(){
+  if(this.sections[this.index]){
+    return this.sections[this.index];
+  }
+  return null;
+};
+
+RevealSectionIte.prototype.getNext = function(){
+  if(this.index < this.count() - 1){
+    return this.sections[this.index+1];
+  } else {
+    return {
+      setState:function(){}
+    };
+  }
+};
+
+RevealSectionIte.prototype.getPrev = function(){
+  if(this.index > 0){
+    return this.sections[this.index-1];
+  } else {
+    return {
+      setState:function(){}
+    };
+  }
+};
+
+RevealSectionIte.prototype.updateState = function(){
+  var self = this;
+  _.map(this.sections,function(el,ite){
+    if(el !== self.current() && el !== self.getNext() && el !== self.getPrev() ) {
+      el.setState();
+    }
+  });
+  this.current().setState('current');
+  this.getNext().setState('next');
+  this.getPrev().setState('prev');
 };
 
 /**
@@ -229,6 +314,7 @@ angular.module('angularRevealApp')
       transclude: true,
       replace: true,
       templateUrl:'template/reveal.html',
+      scope : {},
       link: function (scope, element, attrs) {
       }
     };

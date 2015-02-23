@@ -11,26 +11,37 @@ function RevealControls(scope,element){
   this.scope = scope;
   this.element = element;
   this.initScope();
+  this.initElement();
 }
 
-RevealControls.prototype.setReveal = function(reveal){
-  this.reveal = reveal;
+RevealControls.prototype.setIterable = function(reveal){
+  this.iterable = reveal;
 };
 
 RevealControls.prototype.getIndexCurrent = function(){
-  return this.reveal.current.index;
+  return this.iterable.index;
 };
 
 RevealControls.prototype.getSectionSize = function(){
-  return  this.reveal.allSection.length;
+  return  this.iterable.count() - 1;
 };
 
 RevealControls.prototype.getStackCurrent = function(){
-  return this.reveal.current.stack;
+  if(this.iterable.current()){
+    if(this.iterable.current().hasSubSection()){
+      return this.iterable.current().iterable.index;
+    }
+  }
+  return null;
 };
 
 RevealControls.prototype.getStackSize = function(){
-  return this.reveal.current.section.stack.length;
+  if(this.iterable.current()) {
+    if (this.iterable.current().hasSubSection()) {
+      return this.iterable.current().iterable.count();
+    }
+  }
+  return null;
 };
 
 RevealControls.prototype.initScope = function(){
@@ -47,31 +58,59 @@ RevealControls.prototype.initScope = function(){
   this.scope.bottom = function(){
     self.bottom();
   };
+  this.scope.getClassForDirection = function(direction){
+    return self.getClassForDirection(direction);
+  };
+};
+RevealControls.prototype.getClassForDirection = function(direction) {
+  if(this.isEnabled(direction)){
+    return 'enabled';
+  }
+};
+
+RevealControls.prototype.isEnabled = function(direction) {
+  if(direction === 'left' || direction === 'right' ){
+    var index = this.getIndexCurrent();
+    if(direction === 'left'){
+      if(index > 0){
+        return true;
+      }
+    } else {
+      var size = this.getSectionSize();
+      if(index + 1 <= size){
+        return true;
+      }
+    }
+  } else if (direction === 'top' || direction === 'bottom'){
+    return false;
+  }
+  return false;
+};
+
+RevealControls.prototype.initElement = function() {
+  this.element.show();
 };
 
 RevealControls.prototype.left = function(){
-  var index = this.getIndexCurrent();
-  if(index - 1 > 0){
-    this.reveal.goToIndex(index-1);
+  if(this.isEnabled('left')){
+    var index = this.getIndexCurrent();
+    this.iterable.prev();
   }
 };
 RevealControls.prototype.right = function(){
-  var index = this.getIndexCurrent();
-  var size = this.getSectionSize();
-  if(index + 1 <= size){
-    this.reveal.goToIndex(index+1);
+  if(this.isEnabled('right')){
+    this.iterable.next();
   }
 };
 RevealControls.prototype.top = function(){
-  var stack = this.getStackCurrent();
-  if(stack - 1 > 0){
+  if(this.isEnabled('top')){
+    var stack = this.getStackCurrent();
     this.reveal.goToStack(stack-1);
   }
 };
 RevealControls.prototype.bottom = function(){
-  var stack = this.getStackCurrent();
-  var size = this.getStackSize();
-  if(stack + 1 <= size){
+  if(this.isEnabled('bottom')){
+    var stack = this.getStackCurrent();
     this.reveal.goToStack(stack+1);
   }
 };
@@ -93,7 +132,7 @@ angular.module('angularRevealApp')
       link: function postLink(scope, element, attrs, ctrl) {
         var revealControlsCtrl = ctrl[0];
         var revealCtrl = ctrl[1];
-        revealControlsCtrl.controls.setReveal(revealCtrl.reveal);
+        revealControlsCtrl.controls.setIterable(revealCtrl.reveal.iterable);
         revealCtrl.reveal.addControls(revealControlsCtrl.controls);
       }
     };

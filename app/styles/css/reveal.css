@@ -1139,3 +1139,10 @@ body {
 
 .zoomed .reveal .roll span:after {
   visibility: hidden; }
+
+.reveal .slides .section {
+  border : 1px solid #fff;
+  -webkit-transition: -webkit-transform 0.8s ease;
+  transition: transform 0.8s ease;
+
+}

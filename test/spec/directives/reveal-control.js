@@ -42,7 +42,7 @@ describe('Directive: revealControl', function () {
     expect(_.isFunction(ctrl.controls.bottom)).toBe(true);
   });
 
-  it('should function left,right call function goToIndex to revealCtrl', function () {
+  it('should function left,right call function prev and next to iterable', function () {
     createDirective();
     var revealCtrl = getCtrlReveal();
     var ctrl = getCtrl();
@@ -53,64 +53,32 @@ describe('Directive: revealControl', function () {
     spyOn(ctrl.controls,'getSectionSize').and.callFake(function(){
       return size;
     });
-    spyOn(revealCtrl.reveal,'goToIndex');
+    spyOn(revealCtrl.reveal.iterable,'next');
+    spyOn(revealCtrl.reveal.iterable,'prev');
     ctrl.controls.left();
     expect(ctrl.controls.getIndexCurrent).toHaveBeenCalled();
     expect(ctrl.controls.getSectionSize).not.toHaveBeenCalled();
-    expect(revealCtrl.reveal.goToIndex).toHaveBeenCalledWith(1);
-    index = 1;
-    revealCtrl.reveal.goToIndex.calls.reset();
+    expect(revealCtrl.reveal.iterable.prev).toHaveBeenCalled();
+    index = 0;
+    revealCtrl.reveal.iterable.prev.calls.reset();
     ctrl.controls.left();
     expect(ctrl.controls.getIndexCurrent).toHaveBeenCalled();
     expect(ctrl.controls.getSectionSize).not.toHaveBeenCalled();
-    expect(revealCtrl.reveal.goToIndex).not.toHaveBeenCalled();
-    revealCtrl.reveal.goToIndex.calls.reset();
+    expect(revealCtrl.reveal.iterable.prev).not.toHaveBeenCalled();
     ctrl.controls.right();
     expect(ctrl.controls.getIndexCurrent).toHaveBeenCalled();
     expect(ctrl.controls.getSectionSize).toHaveBeenCalled();
-    expect(revealCtrl.reveal.goToIndex).toHaveBeenCalledWith(2);
+    expect(revealCtrl.reveal.iterable.next).toHaveBeenCalled();
     index = 2;
-    revealCtrl.reveal.goToIndex.calls.reset();
+    revealCtrl.reveal.iterable.next.calls.reset();
     ctrl.controls.right();
     expect(ctrl.controls.getIndexCurrent).toHaveBeenCalled();
     expect(ctrl.controls.getSectionSize).toHaveBeenCalled();
-    expect(revealCtrl.reveal.goToIndex).not.toHaveBeenCalled();
+    expect(revealCtrl.reveal.iterable.next).not.toHaveBeenCalled();
+
   });
 
-  it('should function top,bottom call function goToStack to revealCtrl', function () {
-    createDirective();
-    var revealCtrl = getCtrlReveal();
-    var ctrl = getCtrl();
-    var index = 2, size=2;
-    spyOn(ctrl.controls,'getStackCurrent').and.callFake(function(){
-      return index;
-    });
-    spyOn(ctrl.controls,'getStackSize').and.callFake(function(){
-      return size;
-    });
-    spyOn(revealCtrl.reveal,'goToStack');
-    ctrl.controls.top();
-    expect(ctrl.controls.getStackCurrent).toHaveBeenCalled();
-    expect(ctrl.controls.getStackSize).not.toHaveBeenCalled();
-    expect(revealCtrl.reveal.goToStack).toHaveBeenCalledWith(1);
-    index = 1;
-    revealCtrl.reveal.goToStack.calls.reset();
-    ctrl.controls.top();
-    expect(ctrl.controls.getStackCurrent).toHaveBeenCalled();
-    expect(ctrl.controls.getStackSize).not.toHaveBeenCalled();
-    expect(revealCtrl.reveal.goToStack).not.toHaveBeenCalled();
-    revealCtrl.reveal.goToStack.calls.reset();
-    ctrl.controls.bottom();
-    expect(ctrl.controls.getStackCurrent).toHaveBeenCalled();
-    expect(ctrl.controls.getStackSize).toHaveBeenCalled();
-    expect(revealCtrl.reveal.goToStack).toHaveBeenCalledWith(2);
-    index = 2;
-    revealCtrl.reveal.goToStack.calls.reset();
-    ctrl.controls.bottom();
-    expect(ctrl.controls.getStackCurrent).toHaveBeenCalled();
-    expect(ctrl.controls.getStackSize).toHaveBeenCalled();
-    expect(revealCtrl.reveal.goToStack).not.toHaveBeenCalled();
-  });
+
 
   it('should click to left,right,top,bottom', function () {
     createDirective();
