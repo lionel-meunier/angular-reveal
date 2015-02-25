@@ -12,7 +12,7 @@ angular.module('angularRevealApp')
       restrict: 'EA',
       replace: true,
       templateUrl: 'template/progress.html',
-      link: function postLink(scope, element, attrs) {
+      link: function () {
       }
     };
   });

@@ -11,7 +11,8 @@ module.exports = function(config) {
     autoWatch: true,
 
     preprocessors: {
-      'app/template/**/*.html': ['ng-html2js']
+      'app/template/**/*.html': ['ng-html2js'],
+      'app/scripts/**/*.js': 'coverage'
     },
 
     // base path, that will be used to resolve files and exclude
@@ -55,6 +56,7 @@ module.exports = function(config) {
     // Which plugins to enable
     plugins: [
       'karma-phantomjs-launcher',
+      'karma-coverage',
       'karma-ng-html2js-preprocessor',
       'karma-jasmine'
     ],
@@ -92,6 +94,13 @@ module.exports = function(config) {
       // setting this option will create only a single module that contains templates
       // from all the files, so you can load them all with module('foo')
       moduleName: 'templates'
+    },
+
+    reporters: ['progress', 'coverage'],
+
+    coverageReporter: {
+      type: 'lcov',
+      dir: 'test_output/coverage/'
     }
   });
 };
