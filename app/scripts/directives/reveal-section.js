@@ -9,9 +9,9 @@
 
 angular.module('angularRevealApp')
   .controller('RevealSectionCtrl',['$scope','$element','RevealSection',function($scope,$element, RevealSection){
-    this.createSection = function(reveal){
-      this.revealSection = new RevealSection($scope,$element,reveal);
-      reveal.addSection(this.revealSection);
+    this.createSection = function(parent){
+      this.revealSection = new RevealSection($scope,$element,parent);
+      parent.addSection(this.revealSection);
     };
   }])
   .directive('revealSection', ['$timeout',function ($timeout) {

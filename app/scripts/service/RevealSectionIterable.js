@@ -11,8 +11,40 @@
         this.index = 0;
       }
 
-      RevealSectionIterable.prototype.removeSection = function () {
-        console.error('not implemanted');
+      //controls position in iterable
+      RevealSectionIterable.prototype.count = function () {
+        return this.sections.length;
+      };
+
+      RevealSectionIterable.prototype.isFirst = function () {
+        return this.index === 0;
+      };
+
+      RevealSectionIterable.prototype.isLast = function () {
+        return this.index === this.count() - 1;
+      };
+
+      RevealSectionIterable.prototype.hasNext = function () {
+        return !this.isLast();
+      };
+      RevealSectionIterable.prototype.hasPrev = function () {
+        return !this.isFirst();
+      };
+
+      RevealSectionIterable.prototype.removeSection = function (section) {
+        this.sections = _.without(this.sections,section);
+        if(_.isUndefined(this.current())){
+          if(this.hasPrev()){
+            this.prev();
+          }
+        } else {
+          this.sections = _.sortBy(this.sections, function (el) {
+            return el.getIndex();
+          });
+          //update state
+          this.updateState();
+        }
+
       };
 
       RevealSectionIterable.prototype.addSection = function (section) {
@@ -25,94 +57,60 @@
         this.updateState();
       };
 
-      RevealSectionIterable.prototype.count = function () {
-        return this.sections.length;
-      };
-
-      RevealSectionIterable.prototype.reset = function () {
-        this.index = 0;
-      };
-
       RevealSectionIterable.prototype.next = function () {
-        if (this.index < this.count() - 1) {
+        if (this.hasNext()) {
           this.index++;
           this.updateState();
           return this.sections[this.index];
-        } else {
-          return null;
         }
+        return;
       };
 
       RevealSectionIterable.prototype.prev = function () {
-        if (this.index > 0) {
+        if (this.hasPrev()) {
           this.index--;
           this.updateState();
           return this.sections[this.index];
-        } else {
-          return null;
         }
+        return;
       };
 
       RevealSectionIterable.prototype.first = function () {
-        if (this.count() > 0) {
+        if (!this.isFirst()) {
           this.index = 0;
           this.updateState();
           return this.sections[this.index];
-        } else {
-          return null;
         }
+        return;
       };
 
       RevealSectionIterable.prototype.last = function () {
-        if (this.count() > 0) {
+        if (!this.isLast()) {
           this.index = this.count() - 1;
           this.updateState();
           return this.sections[this.index];
-        } else {
-          return null;
         }
+        return;
       };
 
       RevealSectionIterable.prototype.current = function () {
-        if (this.sections[this.index]) {
-          return this.sections[this.index];
-        }
-        return null;
-      };
-
-      RevealSectionIterable.prototype.getNext = function () {
-        if (this.index < this.count() - 1) {
-          return this.sections[this.index + 1];
-        } else {
-          return {
-            setState: function () {
-            }
-          };
-        }
-      };
-
-      RevealSectionIterable.prototype.getPrev = function () {
-        if (this.index > 0) {
-          return this.sections[this.index - 1];
-        } else {
-          return {
-            setState: function () {
-            }
-          };
-        }
+        return this.sections[this.index];
       };
 
       RevealSectionIterable.prototype.updateState = function () {
         var self = this;
         _.map(this.sections, function (el) {
-          if (el !== self.current() && el !== self.getNext() && el !== self.getPrev()) {
-            el.setState();
-          }
+          el.setState();
         });
         this.current().setState('current');
-        this.getNext().setState('next');
-        this.getPrev().setState('prev');
+        if(this.hasNext()){
+          this.sections[this.index+1].setState('next');
+        }
+        if(this.hasPrev()){
+          this.sections[this.index-1].setState('prev');
+        }
       };
+
 
       return RevealSectionIterable;
     }]);

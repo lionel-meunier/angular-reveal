@@ -44,9 +44,22 @@
           this.iterable = new RevealSectionIterable();
           this.slides = element.find('.slides');
           this.calculationZoomSlides();
+
           var self = this;
           angular.element($window).on('resize', function () {
             self.calculationZoomSlides();
+          });
+
+          angular.element($window).on('keydown', function (e) {
+            self.scope.$applyAsync(function(){
+              self.onKeydown(e);
+            });
+          });
+
+          angular.element($window).on('keypress', function (e) {
+            self.scope.$applyAsync(function(){
+              self.onKeypress(e);
+            });
           });
         }
 
@@ -99,16 +112,59 @@
         Reveal.prototype.removeSection = function (section) {
           this.iterable.removeSection(section);
         };
-        Reveal.prototype.getSection = function () {
 
+        Reveal.prototype.onKeydown = function (event) {
+          //n, space next slide
+          if (event.keyCode === 32 || event.keyCode === 78) {
+            this.controls.next();
+          }
+          //p previous slide
+          if (event.keyCode === 80) {
+            this.controls.prev();
+          }
+          //<-, h navigate left
+          if (event.keyCode === 37 || event.keyCode === 72) {
+            this.controls.left();
+          }
+          //^, k navigate up
+          if (event.keyCode === 38 || event.keyCode === 75) {
+            this.controls.up();
+          }
+          //->, l navigate right
+          if (event.keyCode === 39 || event.keyCode === 76) {
+            this.controls.right();
+          }
+          //-^, J navigate down
+          if (event.keyCode === 40 || event.keyCode === 74) {
+            this.controls.down();
+          }
+          //home first slide
+          if (event.keyCode === 36) {
+            this.controls.first();
+          }
+          //end last slide
+          if (event.keyCode === 35) {
+            this.controls.last();
+          }
+          //b pause (play ??)
+          if (event.keyCode === 66) {
+            console.log('pause not implemented');
+          }
+          //f fullscreen
+          if (event.keyCode === 70) {
+            console.log('fullscreen not implemented');
+          }
+          //ESC, O slide overview
+          if (event.keyCode === 27 || event.keyCode === 79) {
+            console.log('slide overview not implemented');
+          }
         };
-        Reveal.prototype.addProgress = function () {
-
-        };
-        Reveal.prototype.removeProgress = function () {
-
-        };
-        Reveal.prototype.getProgress = function () {
+        Reveal.prototype.onKeypress = function (event) {
+          //Shift + , open overlay
+          console.log(event.charCode, 'event onKeypress not implemented');
+          if( event.shiftKey && event.charCode === 63 ) {
+            console.log(event, 'event onKeypress not implemented');
+          }
 
         };
 
@@ -121,41 +177,6 @@
           }
           this.controls = controls;
           this.controls.setParent(this);
-        };
-
-        Reveal.prototype.removeControls = function () {
-
-        };
-        Reveal.prototype.getControls = function () {
-
-        };
-        Reveal.prototype.goToIndex = function (index) {
-          console.log('not implemented goToIndex', index);
-        };
-        Reveal.prototype.goToStack = function (stack) {
-          console.log('not implemented goToStack', stack);
-        };
-        Reveal.prototype.getIndex = function (element) {
-          var self = this;
-          if (this.inStackElement(element)) {
-
-          } else {
-            var index = _.indexOf(this.slides.find('.section').not(function (i, e) {
-              return self.inStackElement(angular.element(e));
-            }), element.get(0));
-            return index;
-          }
-          return 0;
-        };
-        Reveal.prototype.inStackElement = function (element) {
-          return element.parent('.section').length > 0;
-        };
-        Reveal.prototype.getStack = function (element) {
-          if (this.inStackElement(element)) {
-
-          } else {
-            return -1;
-          }
         };
 
         return Reveal;

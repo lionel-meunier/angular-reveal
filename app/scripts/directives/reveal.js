@@ -9,6 +9,7 @@
 angular.module('angularRevealApp')
   .controller('RevealCtrl', ['$scope', '$window', '$element', 'Reveal',function ($scope, $window, $element, Reveal) {
     this.reveal = new Reveal($scope, $element);
+    $scope.$reveal = this.reveal;
   }])
   .directive('reveal', function () {
     return {

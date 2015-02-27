@@ -155,6 +155,30 @@
         expect(myService.iterableV.prev).not.toHaveBeenCalled();
       });
 
+      it('should get class enabled if direction isEnabled', function () {
+        addSection(revealService);
+        addSection(revealService);
+        expect(myService.getClassForDirection('test')).toBeUndefined();
+        expect(myService.getClassForDirection('right')).toBe('enabled');
+      });
+
+      it('should next is next iterable current', function () {
+        addSection(revealService);
+        addSection(revealService);
+        var current = revealService.iterable.current();
+        addSection(current);
+        addSection(current);
+        myService.updateIterableV();
+        spyOn(myService.iterableH,'next');
+        spyOn(myService.iterableV,'next');
+        myService.next();
+        expect(myService.iterableV.next).toHaveBeenCalled();
+        expect(myService.iterableH.next).not.toHaveBeenCalled();
+        myService.iterableV.last();
+        myService.next();
+        expect(myService.iterableH.next).toHaveBeenCalled();
+      });
+
     });
   });
 })();

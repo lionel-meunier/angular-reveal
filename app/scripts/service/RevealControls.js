@@ -92,10 +92,6 @@
         return false;
       };
 
-      RevealControls.prototype.initElement = function() {
-        this.element.show();
-      };
-
       RevealControls.prototype.left = function(){
         if(this.isEnabled('left')){
           this.iterableH.prev();
@@ -117,6 +113,26 @@
         if(this.isEnabled('down')){
           this.iterableV.next();
         }
+      };
+      RevealControls.prototype.next = function(){
+        if(this.iterableV){
+          if(this.iterableV.hasNext()){
+            return this.iterableV.next();
+          }
+        }
+        if(this.iterableH.hasNext()){
+          return this.iterableH.next();
+        }
+        return;
+      };
+      RevealControls.prototype.prev = function(){
+        console.log('prev not implemented');
+      };
+      RevealControls.prototype.first = function(){
+        console.log('first not implemented');
+      };
+      RevealControls.prototype.last = function(){
+        console.log('last not implemented');
       };
 
 
