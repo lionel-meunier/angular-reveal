@@ -48,6 +48,10 @@ body {
 }
 .reveal .section {
   display: none;
+  position: absolute;
+  width: 100%;
+  padding: 20px 0px;
+  z-index: 10;
 }
 .reveal .section.present {
   display: block;
@@ -100,3 +104,95 @@ body {
   opacity: 0.7;
   cursor: pointer;
 }
+.reveal.slide .section {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+.reveal.slide .section.ng-animate {
+  transition: transform 800ms linear,opacity 800ms linear;
+}
+.reveal.slide .section.past,
+.reveal.slide .section.past-add.present-remove {
+  display: block;
+  opacity: 0;
+  -webkit-transform: translate(-150%, 0);
+  -ms-transform: translate(-150%, 0);
+  transform: translate(-150%, 0);
+}
+.reveal.slide .section.past-remove.present-add {
+  display: block;
+  opacity: 1;
+  -webkit-transform: translate(0, 0);
+  -ms-transform: translate(0, 0);
+  transform: translate(0, 0);
+}
+.reveal.slide .section.futur,
+.reveal.slide .section.futur-add.present-remove {
+  display: block;
+  opacity: 0;
+  -webkit-transform: translate(150%, 0);
+  -ms-transform: translate(150%, 0);
+  transform: translate(150%, 0);
+}
+.reveal.slide .section.futur-remove.present-add {
+  display: block;
+  opacity: 1;
+  -webkit-transform: translate(0, 0);
+  -ms-transform: translate(0, 0);
+  transform: translate(0, 0);
+}
+.reveal.slide .section .section.past,
+.reveal.slide .section .section.past-add.present-remove {
+  display: block;
+  opacity: 0;
+  -webkit-transform: translate(0, -150%);
+  -ms-transform: translate(0, -150%);
+  transform: translate(0, -150%);
+}
+.reveal.slide .section .section.past-remove.present-add {
+  display: block;
+  opacity: 1;
+  -webkit-transform: translate(0, 0);
+  -ms-transform: translate(0, 0);
+  transform: translate(0, 0);
+}
+.reveal.slide .section .section.futur,
+.reveal.slide .section .section.futur-add.present-remove {
+  display: block;
+  opacity: 0;
+  -webkit-transform: translate(0, 150%);
+  -ms-transform: translate(0, 150%);
+  transform: translate(0, 150%);
+}
+.reveal.slide .section .section.futur-remove.present-add {
+  display: block;
+  opacity: 1;
+  -webkit-transform: translate(0, 0);
+  -ms-transform: translate(0, 0);
+  transform: translate(0, 0);
+}
+/*
+.reveal.slide .section, .reveal.linear .section {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden; }
+
+.reveal .slides > .section[data-transition=slide].past, .reveal.slide .slides > .section:not([data-transition]).past, .reveal .slides > .section[data-transition=linear].past, .reveal.linear .slides > .section:not([data-transition]).past {
+  -webkit-transform: translate(-150%, 0);
+  -ms-transform: translate(-150%, 0);
+  transform: translate(-150%, 0); }
+
+.reveal .slides > .section[data-transition=slide].future, .reveal.slide .slides > .section:not([data-transition]).future, .reveal .slides > .section[data-transition=linear].future, .reveal.linear .slides > .section:not([data-transition]).future {
+  -webkit-transform: translate(150%, 0);
+  -ms-transform: translate(150%, 0);
+  transform: translate(150%, 0); }
+
+.reveal .slides > .section > .section[data-transition=slide].past, .reveal.slide .slides > .section > .section:not([data-transition]).past, .reveal .slides > .section > .section[data-transition=linear].past, .reveal.linear .slides > .section > .section:not([data-transition]).past {
+  -webkit-transform: translate(0, -150%);
+  -ms-transform: translate(0, -150%);
+  transform: translate(0, -150%); }
+
+.reveal .slides > .section > .section[data-transition=slide].future, .reveal.slide .slides > .section > .section:not([data-transition]).future, .reveal .slides > .section > .section[data-transition=linear].future, .reveal.linear .slides > .section > .section:not([data-transition]).future {
+  -webkit-transform: translate(0, 150%);
+  -ms-transform: translate(0, 150%);
+  transform: translate(0, 150%); }
+*/
