@@ -30,7 +30,6 @@
         return element.controller('reveal');
       };
 
-
       it('should has progress and controls by default', function () {
         createDirective();
         expect(element.find('[reveal-progress]').length).toBe(1);

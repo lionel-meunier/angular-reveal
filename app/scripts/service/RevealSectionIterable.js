@@ -98,16 +98,22 @@
       };
 
       RevealSectionIterable.prototype.updateState = function () {
-        var self = this;
         _.map(this.sections, function (el) {
           el.setState();
         });
-        this.current().setState('current');
+        var current = this.current();
+        if(current){
+          current.setState('current');
+        }
         if(this.hasNext()){
-          this.sections[this.index+1].setState('next');
+          if(this.sections[this.index+1]) {//TODO erreur a identifier
+            this.sections[this.index + 1].setState('next');
+          }
         }
         if(this.hasPrev()){
-          this.sections[this.index-1].setState('prev');
+          if(this.sections[this.index-1]) {//TODO erreur a identifier
+            this.sections[this.index - 1].setState('prev');
+          }
         }
       };
 

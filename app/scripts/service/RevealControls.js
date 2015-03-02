@@ -14,44 +14,20 @@
         this.reveal = reveal;
         this.setIterableH(this.reveal.iterable);
       };
+
       RevealControls.prototype.setIterableH = function(iterable){
         this.iterableH = iterable;
         this.updateIterableV();
       };
+
       RevealControls.prototype.updateIterableV = function(){
         var current = this.iterableH.current();
         if(_.isObject(current)){
-          if(current.hasSubSection()){
-            this.setIterableV(current.iterable);
-          } else {
-            this.setIterableV();
-          }
+          this.setIterableV(current.iterable);
         }
       };
       RevealControls.prototype.setIterableV = function(iterable){
         this.iterableV = iterable;
-      };
-
-      RevealControls.prototype.getHIndex = function(){
-        return this.iterableH.index;
-      };
-
-      RevealControls.prototype.getHSize = function(){
-        return  this.iterableH.count();
-      };
-
-      RevealControls.prototype.getVIndex = function(){
-        if(this.iterableV){
-          return this.iterableV.index;
-        }
-        return null;
-      };
-
-      RevealControls.prototype.getVSize = function(){
-        if(this.iterableV){
-          return this.iterableV.count();
-        }
-        return null;
       };
 
 
@@ -62,32 +38,21 @@
       };
 
       RevealControls.prototype.isEnabled = function(direction) {
-        var index,size;
-        if(direction === 'left' || direction === 'right' ){
-          index = this.getHIndex();
-          if(direction === 'left'){
-            if(index > 0){
-              return true;
-            }
-          } else {
-            size = this.getHSize();
-            if(index + 1 < size){
-              return true;
-            }
+        if(direction === 'left') {
+          return this.iterableH.hasPrev();
+        }
+        if(direction === 'right') {
+          return this.iterableH.hasNext();
+        }
+        if(direction === 'up') {
+          if(this.iterableV) {
+            return this.iterableV.hasPrev();
           }
-        } else if (direction === 'up' || direction === 'down'){
-          index = this.getVIndex();
-          if(direction === 'up'){
-            if(index > 0){
-              return true;
-            }
-          } else {
-            size = this.getVSize();
-            if(index + 1 < size){
-              return true;
-            }
+        }
+        if(direction === 'down') {
+          if(this.iterableV) {
+            return this.iterableV.hasNext();
           }
-          return false;
         }
         return false;
       };
@@ -114,25 +79,38 @@
           this.iterableV.next();
         }
       };
+
       RevealControls.prototype.next = function(){
         if(this.iterableV){
           if(this.iterableV.hasNext()){
             return this.iterableV.next();
           }
         }
-        if(this.iterableH.hasNext()){
-          return this.iterableH.next();
-        }
-        return;
+        return this.iterableH.next();
       };
+
       RevealControls.prototype.prev = function(){
-        console.log('prev not implemented');
+        if(this.iterableV){
+          if(this.iterableV.hasPrev()){
+            return this.iterableV.prev();
+          }
+        }
+        return this.iterableH.prev();
       };
+
       RevealControls.prototype.first = function(){
-        console.log('first not implemented');
+        this.iterableH.first();
+        this.updateIterableV();
+        if(this.iterableV){
+          this.iterableV.first();
+        }
       };
       RevealControls.prototype.last = function(){
-        console.log('last not implemented');
+        this.iterableH.last();
+        this.updateIterableV();
+        if(this.iterableV){
+          this.iterableV.last();
+        }
       };
 
 
