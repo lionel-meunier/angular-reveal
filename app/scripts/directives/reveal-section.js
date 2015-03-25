@@ -31,9 +31,11 @@ angular.module('angularRevealApp')
         if(_.isObject(revealSectionParentCtrl)){
           $timeout(function(){
             revealSectionCtrl.createSection(revealSectionParentCtrl.revealSection);
+            scope.revealSection = revealSectionCtrl.revealSection;
           });
         } else {
           revealSectionCtrl.createSection(revealCtrl.reveal);
+          scope.revealSection = revealSectionCtrl.revealSection;
         }
       }
     };

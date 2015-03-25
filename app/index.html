@@ -20,6 +20,7 @@
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
+    <input type="checkbox" ng-model="data.display"/>
     <!-- Add your site or application content here -->
 
     <div reveal class="slide center">
@@ -35,7 +36,7 @@
             <input type="text"/>
           </form>
         </div>
-        <div reveal-section>
+        <div reveal-section ng-if="data.display">
           <h1>Section 2.2</h1>
           <p>Text de la section 2</p>
         </div>

@@ -34,6 +34,36 @@
         expect(fn.create).not.toThrow();
       });
 
+      describe('initialized', function () {
+
+        var myService,
+          sectionElement,
+          revealElement,
+          revealService;
+
+        beforeEach(inject(function ($injector) {
+          $rootScope = $injector.get('$rootScope');
+          Reveal = $injector.get('Reveal');
+          Service = $injector.get('RevealSection');
+          var scope = $rootScope.$new();
+          revealElement = angular.element('<div></div>');
+          revealService = new Reveal(scope,element);
+          var sectionScope = $rootScope.$new();
+          sectionElement = angular.element('<div></div>');
+          myService = new RevealSection(sectionScope,sectionElement,revealService);
+        }));
+
+        it('hasSubSection use selector jQuery', function () {
+          spyOn(sectionElement,'parent').andCallFake(function(selector){
+            return revealElement;
+          });
+          myService.hasSubSection();
+
+
+        });
+
+      });
+
 
 
     });
