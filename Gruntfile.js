@@ -6,6 +6,7 @@
 // 'test/spec/{,*/}*.js'
 // use this if you want to recursively match all subfolders:
 // 'test/spec/**/*.js'
+var Dgeni = require('dgeni');
 
 module.exports = function (grunt) {
 
@@ -451,4 +452,10 @@ module.exports = function (grunt) {
     'test',
     'build'
   ]);
+
+  grunt.registerTask('dgeni', 'Generate docs via dgeni.', function() {
+    var done = this.async();
+    var dgeni = new Dgeni([require('./docs/dgeni')]);
+    dgeni.generate().then(done);
+  });
 };

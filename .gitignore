@@ -5,3 +5,4 @@ dist
 bower_components
 .idea
 test_output
+build

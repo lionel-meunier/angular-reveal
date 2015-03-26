@@ -5,7 +5,9 @@
   'use strict';
   angular.module('angularRevealApp').factory(
     'Reveal',
-    function (RevealSectionIterable,
+    ['RevealSectionIterable',
+      '$window',
+      function (RevealSectionIterable,
               $window) {
 
       var config = {
@@ -178,9 +180,6 @@
       };
 
       return Reveal;
-    }]);,,
-  [
-  'RevealSectionIterable',
-      '$window'
+    }]);
 })();
 

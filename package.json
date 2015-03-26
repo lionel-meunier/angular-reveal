@@ -4,6 +4,9 @@
   "dependencies": {},
   "repository": {},
   "devDependencies": {
+    "dgeni": "^0.4.0",
+    "dgeni-packages": "^0.10.0",
+    "canonical-path": "0.0.2",
     "grunt": "^0.4.5",
     "grunt-autoprefixer": "^2.0.0",
     "grunt-concurrent": "^1.0.0",
