@@ -47,19 +47,23 @@
           Service = $injector.get('RevealSection');
           var scope = $rootScope.$new();
           revealElement = angular.element('<div></div>');
-          revealService = new Reveal(scope,element);
+          revealService = new Reveal(scope,revealElement);
           var sectionScope = $rootScope.$new();
           sectionElement = angular.element('<div></div>');
-          myService = new RevealSection(sectionScope,sectionElement,revealService);
+          myService = new Service(sectionScope,sectionElement,revealService);
         }));
 
-        it('hasSubSection use selector jQuery', function () {
-          spyOn(sectionElement,'parent').andCallFake(function(selector){
-            return revealElement;
+        it('hasSubSection if iterable is not empty', function () {
+          var nbr = 0;
+          spyOn(myService.iterable,'count').and.callFake(function(){
+            return nbr;
           });
-          myService.hasSubSection();
-
-
+          expect(myService.hasSubSection()).toBe(false);
+          expect(myService.iterable.count).toHaveBeenCalled();
+          myService.iterable.count.calls.reset();
+          nbr=1;
+          expect(myService.hasSubSection()).toBe(true);
+          expect(myService.iterable.count).toHaveBeenCalled();
         });
 
       });

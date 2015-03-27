@@ -52,7 +52,6 @@
         this.sections.push(section);
         //order by this index
         this.sections = _.sortBy(this.sections, function (el) {
-          console.log(el.element);
           return el.getIndex();
         });
         //update state

@@ -20,6 +20,8 @@
         }
         this.scope = scope;
         this.element = element;
+        this.elementWrap = element.find('.slides');
+        this.element.addClass('reveal-section');
         this.parent = parent;
         this.iterable = new RevealSectionIterable();
         this.initScope();
@@ -42,19 +44,16 @@
 
       RevealSection.prototype.getIndex = function(){
         var self = this;
-        if(this.hasSubSection()) {
-          console.error('hasSubSection getIndex not implemented');
-        } else {
-          var slides = this.element.parent('.slides');
-          var index = -1;
-          _.each(slides.find('.section'),function(el,ite){
-            if(el === self.element.get(0)) {
-              index = ite;
-            }
-          });
-          return index;
-        }
-        return 0;
+        //TODO : auto add function for add index to ng-repeat
+        var parentElement = this.parent.elementWrap;
+        var childrens = parentElement.children('.reveal-section');
+        var index;
+        _.each(childrens,function(el,ite){
+          if(el === self.element.get(0)){
+            index = ite;
+          }
+        });
+        return index;
       };
 
       RevealSection.prototype.setState = function(state){
