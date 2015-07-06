@@ -45,7 +45,7 @@
           return this.iterableH.hasNext();
         }
         if(direction === 'up') {
-          if(this.iterableV) {
+          if(_.isObject(this.iterableV)) {
             return this.iterableV.hasPrev();
           }
         }

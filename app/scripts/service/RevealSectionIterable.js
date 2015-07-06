@@ -25,10 +25,10 @@
       };
 
       RevealSectionIterable.prototype.hasNext = function () {
-        return !this.isLast();
+        return !this.isLast() && this.count() > 0;
       };
       RevealSectionIterable.prototype.hasPrev = function () {
-        return !this.isFirst();
+        return !this.isFirst() && this.count() > 0;
       };
 
       RevealSectionIterable.prototype.removeSection = function (section) {
