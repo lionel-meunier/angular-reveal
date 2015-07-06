@@ -38,6 +38,7 @@
             this.prev();
           }
         } else {
+
           this.sections = _.sortBy(this.sections, function (el) {
             return el.getIndex();
           });

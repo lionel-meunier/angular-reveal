@@ -20,31 +20,32 @@
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
+    <input type="checkbox" ng-model="data.display"/>
     <!-- Add your site or application content here -->
 
     <div reveal class="slide center">
-      <div reveal-section>
+      <div reveal-section name="1">
         <h1>Section 1</h1>
         <p>Text de la section 1</p>
       </div>
-      <div reveal-section>
-        <div reveal-section>
+      <div reveal-section name="2">
+        <div reveal-section name="2.1">
           <h1>Section 2.1</h1>
           <p>Text de la section 2</p>
           <form>
             <input type="text"/>
           </form>
         </div>
-        <div reveal-section>
+        <div reveal-section ng-if="data.display"  name="2.2">
           <h1>Section 2.2</h1>
           <p>Text de la section 2</p>
         </div>
-        <div reveal-section>
+        <div reveal-section  name="2.3">
           <h1>Section 2.3</h1>
           <p>Text de la section 2</p>
         </div>
       </div>
-      <div reveal-section>
+      <div reveal-section  name="3">
         <h1>Section 3</h1>
         <p>Text de la section 3</p>
       </div>

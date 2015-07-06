@@ -41,9 +41,10 @@
 
           this.scope = scope;
           this.element = element;
-          this.iterable = new RevealSectionIterable();
-          this.slides = element.find('.slides');
+          this.elementWrap = element.find('.slides');
+          this.iterable = new RevealSectionIterable(this.elementWrap);
           this.calculationZoomSlides();
+
 
           var self = this;
           angular.element($window).on('resize', function () {
@@ -51,13 +52,13 @@
           });
 
           angular.element($window).on('keydown', function (e) {
-            self.scope.$applyAsync(function(){
+            self.scope.$applyAsync(function () {
               self.onKeydown(e);
             });
           });
 
           angular.element($window).on('keypress', function (e) {
-            self.scope.$applyAsync(function(){
+            self.scope.$applyAsync(function () {
               self.onKeypress(e);
             });
           });
@@ -96,9 +97,9 @@
           // Respect max/min scale settings
           scale = Math.max(scale, config.minScale);
           scale = Math.min(scale, config.maxScale);
-          this.slides.width(config.width);
-          this.slides.height(config.height);
-          this.slides.css('zoom', scale);
+          this.elementWrap.width(config.width);
+          this.elementWrap.height(config.height);
+          this.elementWrap.css('zoom', scale);
         };
 
         Reveal.prototype.getConfig = function () {
@@ -162,7 +163,7 @@
         Reveal.prototype.onKeypress = function (event) {
           //Shift + , open overlay
           console.log(event.charCode, 'event onKeypress not implemented');
-          if( event.shiftKey && event.charCode === 63 ) {
+          if (event.shiftKey && event.charCode === 63) {
             console.log(event, 'event onKeypress not implemented');
           }
 
